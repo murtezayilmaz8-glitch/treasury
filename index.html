@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Treasury v21:02</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Vazirmatn:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -22,6 +22,95 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .nav-icon{font-size:14px;width:18px;text-align:center;font-family:var(--mono)}
 .sidebar-bottom{margin-top:auto;padding:1rem 1.25rem 0;border-top:1px solid var(--border)}
 .ver{font-size:10px;color:var(--text3);font-family:var(--mono)}
+
+@media (max-width: 768px) {
+  /* Layout */
+  .shell{grid-template-columns:1fr;direction:rtl}
+  .sidebar{
+    position:fixed;bottom:0;left:0;right:0;top:auto;
+    height:60px;flex-direction:row;align-items:center;
+    padding:0 4px;z-index:1000;
+    border-top:1px solid var(--border);border-left:none;border-right:none;
+    overflow-x:auto;overflow-y:hidden;direction:ltr;
+    background:var(--bg2)
+  }
+  .logo{display:none}
+  .sidebar-bottom{display:none}
+  .nav-item{
+    flex-direction:column;gap:2px;padding:4px 8px;
+    border-right:none;border-bottom:3px solid transparent;
+    font-size:9px;min-width:52px;text-align:center;
+    white-space:nowrap;flex-shrink:0
+  }
+  .nav-item.active{border-right-color:transparent;border-bottom-color:var(--amber);background:var(--bg3)}
+  .nav-icon{font-size:20px;width:auto;display:block}
+
+  /* Main content */
+  .main{padding-bottom:68px;direction:rtl}
+  .main-content{padding:.75rem}
+
+  /* Summary bar */
+  .summary-bar{
+    padding:6px .75rem;font-size:11px;gap:.5rem;
+    flex-wrap:wrap;position:sticky;top:0;z-index:100;
+    background:var(--bg2)
+  }
+
+  /* Grids */
+  .metrics{grid-template-columns:1fr 1fr;gap:8px}
+  .g2{grid-template-columns:1fr!important;gap:8px}
+  .g3{grid-template-columns:1fr 1fr!important;gap:8px}
+  .g4{grid-template-columns:1fr 1fr!important;gap:8px}
+
+  /* Cards */
+  .card{padding:1rem;margin-bottom:8px}
+  .card-title{font-size:10px;margin-bottom:.75rem}
+
+  /* Tables */
+  table{font-size:11px}
+  th,td{padding:6px 6px}
+  .tbl-wrap,.mono,.neg,.pos,.zer{font-size:11px}
+
+  /* Forms */
+  input,select,textarea{font-size:16px!important;padding:10px!important}
+  .btn{padding:10px 18px;font-size:14px;width:100%}
+  .btn-ghost{padding:10px 14px;font-size:13px;width:100%}
+  .btn-row{flex-direction:column;gap:8px}
+
+  /* Dashboard grids */
+  #d-banks table,#d-accs table,#d-check,#d-recent table{font-size:11px}
+
+  /* Daily page two-column → single */
+  #pg-daily .main-content > div[style*="grid-template-columns:1fr 1fr"]{
+    grid-template-columns:1fr!important
+  }
+
+  /* Type buttons */
+  .type-btn{padding:10px 4px;font-size:12px}
+
+  /* Metric values */
+  .metric-val{font-size:15px}
+  .metric{padding:.75rem}
+
+  /* Page title */
+  .page-title{font-size:17px}
+  .page-sub{font-size:12px;margin-bottom:1rem}
+
+  /* Backup warning */
+  .backup-warn{font-size:11px;padding:6px 1rem;flex-wrap:wrap;gap:6px}
+
+  /* Toast */
+  .toast{width:90%;font-size:12px;padding:8px 12px}
+}
+
+@media (max-width: 768px) { .daily-grid{grid-template-columns:1fr!important} }
+@media (max-width: 400px) {
+  .nav-item{min-width:44px;font-size:8px;padding:4px 4px}
+  .nav-icon{font-size:18px}
+  .metrics{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr!important}
+}
+
 .summary-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 2rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;font-size:12px}
 .backup-warn{background:var(--red-bg);border-bottom:1px solid rgba(239,68,68,.3);padding:8px 2rem;display:none;align-items:center;justify-content:space-between;font-size:13px;color:var(--red);font-family:var(--mono)}
 .main{display:flex;flex-direction:column;direction:rtl;overflow:auto}
@@ -79,6 +168,33 @@ textarea{height:72px;resize:vertical}
 .preview-box{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:12px;margin-top:1rem;font-size:13px;font-family:var(--mono);display:none}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#0f0f0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Treasury">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f0f0f'/><text y='.9em' font-size='80' x='10'>💰</text></svg>">
+  <link rel="manifest" id="pwa-manifest">
+  <script>
+    const manifest = {
+      name: 'Treasury — خزانه‌داری',
+      short_name: 'Treasury',
+      start_url: location.href,
+      display: 'standalone',
+      background_color: '#0f0f0f',
+      theme_color: '#0f0f0f',
+      orientation: 'portrait',
+      icons: [{
+        src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f0f0f'/><text y='.85em' font-size='75' x='12'>💰</text></svg>",
+        sizes: 'any',
+        type: 'image/svg+xml'
+      }]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+    document.getElementById('pwa-manifest').href = URL.createObjectURL(blob);
+  </script>
 </head>
 <body>
 <div class="shell">
@@ -148,7 +264,7 @@ textarea{height:72px;resize:vertical}
       <div class="card"><div class="card-title">موجودی بانک‌ها</div><div id="d-banks"></div></div>
       <div class="card"><div class="card-title">موجودی حساب‌ها</div><div id="d-accs"></div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="daily-grid">
       <div class="card"><div class="card-title">وضعیت تطبیق</div><div id="d-check"></div></div>
       <div class="card"><div class="card-title">آخرین تراکنش‌ها</div><div id="d-recent"></div></div>
     </div>
@@ -2729,7 +2845,55 @@ function exportReportPDF(){
       th{background:#f5f5f5;font-weight:600}
       @media print{body{padding:1cm}}
     </style>
-  </head><body>${content}<script>window.onload=()=>window.print();<\/script></body></html>`);
+  
+  <!-- PWA -->
+  <meta name="theme-color" content="#0f0f0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Treasury">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f0f0f'/><text y='.9em' font-size='80' x='10'>💰</text></svg>">
+  <link rel="manifest" id="pwa-manifest">
+  <script>
+    const manifest = {
+      name: 'Treasury — خزانه‌داری',
+      short_name: 'Treasury',
+      start_url: location.href,
+      display: 'standalone',
+      background_color: '#0f0f0f',
+      theme_color: '#0f0f0f',
+      orientation: 'portrait',
+      icons: [{
+        src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f0f0f'/><text y='.85em' font-size='75' x='12'>💰</text></svg>",
+        sizes: 'any',
+        type: 'image/svg+xml'
+      }]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+    document.getElementById('pwa-manifest').href = URL.createObjectURL(blob);
+  </script>
+</head><body>${content}<script>window.onload=()=>window.print();<\/script>
+  <script>
+  if('serviceWorker' in navigator){
+    const sw = `
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open('treasury-v1').then(c => c.addAll([location.pathname]))
+  );
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match(location.pathname)))
+  );
+});
+`;
+    const blob = new Blob([sw], {type:'application/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(blob))
+      .then(() => console.log('SW registered'))
+      .catch(e => console.log('SW error:', e));
+  }
+  </script>
+</body></html>`);
   w.document.close();
 }
 
@@ -2907,5 +3071,26 @@ if(rptTo)rptTo.value=TD;
 setInterval(rBackupStatus,60000);
 render();
 </script>
+
+  <script>
+  if('serviceWorker' in navigator){
+    const sw = `
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open('treasury-v1').then(c => c.addAll([location.pathname]))
+  );
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match(location.pathname)))
+  );
+});
+`;
+    const blob = new Blob([sw], {type:'application/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(blob))
+      .then(() => console.log('SW registered'))
+      .catch(e => console.log('SW error:', e));
+  }
+  </script>
 </body>
 </html>
